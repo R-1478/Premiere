@@ -63,7 +63,7 @@ class Admins(Resource):
         Auth.set_admin(admin_instance, password)
         db.session.add(admin_instance)
         db.session.commit()
-        return jsonify({"message": "Admin registered successfully"}), 201
+        return {"message": "Admin registered successfully"}, 201
 
         
 
