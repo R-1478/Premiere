@@ -11,6 +11,7 @@ import os
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -56,13 +57,13 @@ class Admins(Resource):
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
+        admin = Admin(username=username)
+        Auth.set_password(username, password)
+        db.session.add(admin)
+        db.session.commit()
+        return jsonify({"message": "Admin registered successfully"}), 201
 
-        admin = Admin.query.filter_by(username=username).first()
-        if admin and password:
-            access_token = create_access_token(identity=admin.username)
-            return {'access_token': access_token}, 200
-        else:
-            return {"message": "invalid credentials"}, 401
+        
 
 # eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTkwMTg0MSwianRpIjoiZDA2ZjA3MDktZTcwMy00YTllLWE1OTktN2JhMjI4NDlhOTE1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluMSIsIm5iZiI6MTcwOTkwMTg0MSwiY3NyZiI6IjdhM2ZmM2IzLTBiY2UtNDVlMi05YjlmLWRiYzY3Yjc3ODMyOSIsImV4cCI6MTcwOTkwMjc0MX0.UV6whyZOTcEmGt8VtO9b3EQTj42bEyZY3KXEKiMDtaU
 
@@ -120,3 +121,9 @@ api.add_resource(Admins, '/pemire')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
 
+# admin = Admin.query.filter_by(username=username).first()
+#         if admin and password:
+#             access_token = create_access_token(identity=admin.username)
+#             return {'access_token': access_token}, 200
+#         else:
+#             return {"message": "invalid credentials"}, 401
