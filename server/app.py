@@ -13,7 +13,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 migrate = Migrate(app, db)
 
@@ -50,7 +51,7 @@ class Motors(Resource):
 
         return {"message": "Motor added successfully"}, 201
 class Admins(Resource):
-    # @jwt.required()
+    @jwt.required()
     def post(self):
         data = request.get_json()
         username = data.get('username')
