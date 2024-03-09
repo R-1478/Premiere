@@ -51,7 +51,7 @@ class Motors(Resource):
 
         return {"message": "Motor added successfully"}, 201
 class Admins(Resource):
-    @jwt.required()
+    # @jwt.required()
     def post(self):
         data = request.get_json()
         username = data.get('username')
