@@ -6,9 +6,10 @@ from models import db, User, Admin, Motor
 from flask_restful import Resource, Api
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
 from auth import Auth
+import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///app.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
