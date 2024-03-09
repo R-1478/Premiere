@@ -59,7 +59,7 @@ class Admins(Resource):
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
-        admin = Admin(username=username)
+        admin = Admin(username=username, password=password)
         Auth.set_admin(username, password)
         db.session.add(admin)
         db.session.commit()
