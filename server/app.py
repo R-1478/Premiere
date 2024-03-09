@@ -45,8 +45,10 @@ class Motors(Resource):
         name = data.get('name')
         image = data.get('image')
         type = data.get('type')
+        description = data.get('description')
+        price= data.get('price')
 
-        motor = Motor(name=name, image=image, type=type)
+        motor = Motor(name=name, image=image, type=type , description=description , price=price)
         db.session.add(motor)
         db.session.commit()
 
@@ -56,12 +58,13 @@ class Admins(Resource):
     def post(self):
         data = request.get_json()
         username = data.get('username')
-        password = data.get('password')
-        admin = Admin(username=username)
-        Auth.set_password(username, password)
-        db.session.add(admin)
-        db.session.commit()
-        return jsonify({"message": "Admin registered successfully"}), 201
+        password = data.get('password')       
+        admin = Admin.query.filter_by(username=username).first()
+        if admin and password:
+                access_token = create_access_token(identity=admin.username)
+                return {'access_token': access_token}, 200
+        else:
+                return {"message": "invalid credentials"}, 401
 
         
 
@@ -121,9 +124,12 @@ api.add_resource(Admins, '/pemire')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
 
-# admin = Admin.query.filter_by(username=username).first()
-#         if admin and password:
-#             access_token = create_access_token(identity=admin.username)
-#             return {'access_token': access_token}, 200
-#         else:
-#             return {"message": "invalid credentials"}, 401
+
+#    data = request.get_json()
+#         username = data.get('username')
+#         password = data.get('password')
+#         admin = Admin(username=username)
+#         Auth.set_password(username, password)
+#         db.session.add(admin)
+#         db.session.commit()
+#         return jsonify({"message": "Admin registered successfully"}), 201
