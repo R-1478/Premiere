@@ -60,7 +60,7 @@ class Admins(Resource):
         username = data.get('username')
         password = data.get('password')
         admin = Admin(username=username)
-        Auth.set_password(username, password)
+        Auth.set_admin(username, password)
         db.session.add(admin)
         db.session.commit()
         return jsonify({"message": "Admin registered successfully"}), 201
