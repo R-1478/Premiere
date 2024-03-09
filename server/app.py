@@ -58,13 +58,12 @@ class Admins(Resource):
     def post(self):
         data = request.get_json()
         username = data.get('username')
-        password = data.get('password')       
-        admin = Admin.query.filter_by(username=username).first()
-        if admin and password:
-                access_token = create_access_token(identity=admin.username)
-                return {'access_token': access_token}, 200
-        else:
-                return {"message": "invalid credentials"}, 401
+        password = data.get('password')
+        admin = Admin(username=username)
+        Auth.set_password(username, password)
+        db.session.add(admin)
+        db.session.commit()
+        return jsonify({"message": "Admin registered successfully"}), 201
 
         
 
@@ -125,11 +124,13 @@ if __name__ == '__main__':
     app.run(port=5000, debug=True)
 
 
-#    data = request.get_json()
-#         username = data.get('username')
-#         password = data.get('password')
-#         admin = Admin(username=username)
-#         Auth.set_password(username, password)
-#         db.session.add(admin)
-#         db.session.commit()
-#         return jsonify({"message": "Admin registered successfully"}), 201
+        # data = request.get_json()
+        # username = data.get('username')
+        # password = data.get('password')       
+        # admin = Admin.query.filter_by(username=username).first()
+        # if admin and password:
+        #         access_token = create_access_token(identity=admin.username)
+        #         return {'access_token': access_token}, 200
+        # else:
+        #         return {"message": "invalid credentials"}, 401
+#    
