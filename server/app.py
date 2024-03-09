@@ -11,7 +11,6 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///app.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = 'NEKmh7u9rafgoc2m6WibgOeCzhNy58RFjcgCSiwSJnw'
 
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
@@ -74,7 +73,7 @@ class Users(Resource):
             # Query the database using the email
             user = User.query.filter_by(email=email).first()
 
-            if user:
+            if user and password:
                 access_token = create_access_token(identity=user.email)
                 return {'access_token': access_token}, 200
             else:
@@ -111,7 +110,7 @@ def register():
 api.add_resource(Home, '/')
 api.add_resource(Users, '/login')
 api.add_resource(Motors, '/motors')
-api.add_resource(Admins, '/admin')
+api.add_resource(Admins, '/pemire')
 
 
 
