@@ -58,16 +58,15 @@ class Admins(Resource):
     def post(self):
         data = request.get_json()
         username = data.get('username')
-        password = data.get('password')
-        admin_instance = Admin(username=username, password=password)
-        Auth.set_admin(admin_instance, password)
-        db.session.add(admin_instance)
-        db.session.commit()
-        return {"message": "Admin registered successfully"}, 201
+        password = data.get('password')       
+        admin = Admin.query.filter_by(username=username).first()
+        if admin and password:
+                access_token = create_access_token(identity=admin.username)
+                return {'access_token': access_token}, 200
+        else:
+                return {"message": "invalid credentials"}, 401
 
         
-
-# eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTcwOTkwMTg0MSwianRpIjoiZDA2ZjA3MDktZTcwMy00YTllLWE1OTktN2JhMjI4NDlhOTE1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluMSIsIm5iZiI6MTcwOTkwMTg0MSwiY3NyZiI6IjdhM2ZmM2IzLTBiY2UtNDVlMi05YjlmLWRiYzY3Yjc3ODMyOSIsImV4cCI6MTcwOTkwMjc0MX0.UV6whyZOTcEmGt8VtO9b3EQTj42bEyZY3KXEKiMDtaU
 
 class Users(Resource):
     def post(self):  
@@ -123,7 +122,13 @@ api.add_resource(Admins, '/pemire')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
 
-
+# username = data.get('username')
+#         password = data.get('password')
+#         admin_instance = Admin(username=username, password=password)
+#         Auth.set_admin(admin_instance, password)
+#         db.session.add(admin_instance)
+#         db.session.commit()
+#         return {"message": "Admin registered successfully"}, 201
         # data = request.get_json()
         # username = data.get('username')
         # password = data.get('password')       
@@ -134,3 +139,6 @@ if __name__ == '__main__':
         # else:
         #         return {"message": "invalid credentials"}, 401
 #    
+    
+
+    {"username":"Stewie", "password":"griffin21!"}
