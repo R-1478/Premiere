@@ -1,37 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Motors = () => {
   const [motors, setMotors] = useState([]);
 
   useEffect(() => {
-    fetchMotors();
+    fetch('https://premiere.onrender.com/motors')
+      .then(response => response.json())
+      .then(data => setMotors(data))
+      .catch(error => console.error('Error fetching motors:', error));
   }, []);
 
-  const fetchMotors = async () => {
-    try {
-      const response = await fetch('https://premiere.onrender.com/motors');
-      const data = await response.json();
-      setMotors(data);
-    } catch (error) {
-      console.error('Error fetching motors:', error);
-    }
-  };
-
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-4">Buy your dream car today!</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {motors.map((motor) => (
-          <div key={motor.id} className="bg-white shadow-md rounded-md overflow-hidden">
-            <img src={motor.image} alt={motor.type} className="w-full h-48 object-cover" />
-            <div className="p-4">
-              <h2 className="text-xl font-bold mb-2">{motor.type}</h2>
-              <p className="text-gray-600 mb-2">{motor.description}</p>
-              <p className="text-lg font-bold">${motor.price}</p>
-            </div>
-          </div>
-        ))}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {motors.map(motor => (
+      <div key={motor.id} className="max-w-xs mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <img
+          alt="car"
+          src={motor.image}
+          className="h-64 w-full object-cover"
+        />
+        <div className="p-4">
+          <h3 className="text-lg font-bold text-gray-900">{motor.type}</h3>
+          <p className="mt-2 text-gray-700">{motor.description}</p>
+          <p className="mt-2 font-bold text-blue-850">{motor.price}</p>
+        </div>
       </div>
+      ))}
     </div>
   );
 };
