@@ -32,6 +32,8 @@ class Motor(db.Model, SerializerMixin):
     type = db.Column(db.String)
     description = db.Column(db.String)
     price = db.Column(db.VARCHAR)
+    def __repr__(self):
+        return f"name:{self.name} \n image: {self.image} \n type:{self.type}  \n description:{self.description} \n price: {self.price}"
 
 @validates('email')
 def validate(self,value):

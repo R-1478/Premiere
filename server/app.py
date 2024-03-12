@@ -32,7 +32,7 @@ class Home(Resource):
 class Motors(Resource):
     def get(self):
         motors = Motor.query.all()
-        response = [{'id':motor.id, 'name': motor.name, 'image': motor.image,'type': motor.type } for motor in motors]
+        response = [{'id':motor.id, 'name': motor.name, 'image': motor.image,'type': motor.type , 'description':motor.description , 'price': motor.price } for motor in motors]
         return make_response(jsonify(response))
     
     @jwt_required()
