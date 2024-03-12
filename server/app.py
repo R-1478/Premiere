@@ -67,7 +67,17 @@ class Admins(Resource):
         else:
                 return {"message": "invalid credentials"}, 401
 
-        
+@app.route('/premiere/admin', methods=['POST'])
+def token_admin():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')       
+    admin_instance = Admin(username=username, password=password)
+    Auth.set_admin(admin_instance, password)
+    db.session.add(admin_instance)
+    db.session.commit()
+    return {"message": "Admin registered successfully"}, 201
+            
 
 class Users(Resource):
     def post(self):  
@@ -143,3 +153,4 @@ if __name__ == '__main__':
     
 
     {"username":"Stewie", "password":"griffin21!"}
+    {"name":"Motor 1", "image":"https://i.ibb.co/282z92m/Screenshot-2024-03-08-100519.png", "type":"Subaru", "description":"best quality, good infotainment system. Petrol engine , automatic", "price":"1,200,000"}
