@@ -9,7 +9,7 @@ from auth import Auth
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['JWT_SECRET_KEY']= os.environ.get('JWT_SECRET_KEY')
 
 
