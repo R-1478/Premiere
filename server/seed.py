@@ -3,6 +3,7 @@ from models import Admin, User, Motor, db
 
 def seed_database():
     with app.app_context():
+        # db.drop_all()
         
 
         # Seed Users
