@@ -54,13 +54,25 @@ class Motors(Resource):
         db.session.commit()
 
         return {"message": "Motor added successfully"}, 201
-app.route('/motors/<int:id>', methods=['GET'])
+@app.route('/motors/<int:id>', methods=['GET'])
 def get_car(id):
     motor = Motor.query.filter_by(id=id).first()
     if motor:
-        response =  [{'id':motor.id, 'name': motor.name, 'image': motor.image,'type': motor.type , 'description':motor.description , 'price': motor.price, 'model': motor.model, 'mileage':motor.mileage, 'images':motor.images, 'engine_size': motor.engine_size, 'fuel_type':motor.fuel_type  }]
+        response = {
+            'id': motor.id,
+            'name': motor.name,
+            'image': motor.image,
+            'type': motor.type,
+            'description': motor.description,
+            'price': motor.price,
+            'model': motor.model,
+            'mileage': motor.mileage,
+            'images': motor.images,
+            'engine_size': motor.engine_size,
+            'fuel_type': motor.fuel_type
+        }
         return jsonify(response), 200
-    return {'error':'car does not exist in the database'}, 400
+    return jsonify({'error': 'Car does not exist in the database'}), 404
 
      
 class Admins(Resource):
