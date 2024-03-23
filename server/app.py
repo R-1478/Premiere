@@ -54,7 +54,7 @@ class Motors(Resource):
         db.session.commit()
 
         return {"message": "Motor added successfully"}, 201
-app.route('/motors/<int:id', methods=['GET'])
+app.route('/motors/<int:id>', methods=['GET'])
 def get_car(id):
     motor = Motor.query.filter_by(id=id).first()
     if motor:
