@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '../App.css';
 
 const Motors = () => {
   const [motors, setMotors] = useState([]);
@@ -9,22 +10,38 @@ const Motors = () => {
       .then(data => setMotors(data))
       .catch(error => console.error('Error fetching motors:', error));
   }, []);
+  const viewDetails = (motor) => {
+    
+  }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {motors.map(motor => (
-      <div key={motor.id} className="max-w-xs mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-        <img
-          alt="car"
-          src={motor.image}
-          className="h-64 w-full object-cover"
-        />
-        <div className="p-4">
-          <h3 className="text-lg font-bold text-gray-900">{motor.type}</h3>
-          <p className="mt-2 text-gray-700">{motor.description}</p>
-          <p className="mt-2 font-bold text-blue-850">{motor.price}</p>
+    
+    <div className="motors-container">
+      {motors.map(motor => (
+        <div key={motor.id} className="card">
+          <div className="top-section">
+            
+            <img src={motor.image} alt="car" className="car-image" /> {/* Add image here */}
+          </div>
+          <div className="bottom-section">
+            <span className="title">{motor.name}</span>
+            <div className="row row1">
+              <div className="item">
+                <span className="big-text">{motor.price}</span>
+                <span className="regular-text">{motor.type}</span>
+              </div>
+              <div className="item">
+                <span className="big-text">100%</span>
+                <span className="regular-text">{motor.description}</span>
+              </div>
+              <div className="item">
+                <span className="big-text">buy from us</span>
+                <span className="regular-text">TODAY!</span>
+                <button classname="button" onClick={viewDetails}>View Car</button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
       ))}
     </div>
   );

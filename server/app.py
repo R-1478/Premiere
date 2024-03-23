@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from sqlalchemy import text
 from flask_migrate import Migrate
-from models import db, User, Admin, Motor
+from models import db, Admin, Motor
 from flask_restful import Resource, Api
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
 from auth import Auth
@@ -54,6 +54,15 @@ class Motors(Resource):
         db.session.commit()
 
         return {"message": "Motor added successfully"}, 201
+app.route('/motors/<int:id', methods=['GET'])
+def get_car(id):
+    motor = Motor.query.filter_by(id=id).first()
+    if motor:
+        response =  [{'id':motor.id, 'name': motor.name, 'image': motor.image,'type': motor.type , 'description':motor.description , 'price': motor.price, 'model': motor.model, 'mileage':motor.mileage, 'images':motor.images, 'engine_size': motor.engine_size, 'fuel_type':motor.fuel_type  }]
+        return jsonify(response), 200
+    return {'error':'car does not exist in the database'}, 400
+
+     
 class Admins(Resource):
     # @jwt.required()
     def post(self):
@@ -79,51 +88,51 @@ def token_admin():
     return {"message": "Admin registered successfully"}, 201
             
 
-class Users(Resource):
-    def post(self):  
-        email = request.json.get('email')
-        password = request.json.get('password')
+# class Users(Resource):
+#     def post(self):  
+#         email = request.json.get('email')
+#         password = request.json.get('password')
 
-        if email and password:
-            # Query the database using the email
-            user = User.query.filter_by(email=email).first()
+#         if email and password:
+#             # Query the database using the email
+#             user = User.query.filter_by(email=email).first()
 
-            if user and password:
-                access_token = create_access_token(identity=user.email)
-                return {'access_token': access_token}, 200
-            else:
-                return {'message': "Invalid credentials"}, 401
-        else:
-            return {'message': "Invalid credentials"}, 401
+#             if user and password:
+#                 access_token = create_access_token(identity=user.email)
+#                 return {'access_token': access_token}, 200
+#             else:
+#                 return {'message': "Invalid credentials"}, 401
+#         else:
+#             return {'message': "Invalid credentials"}, 401
 
-@app.route('/register', methods=['POST'])
-def register():
-        data = request.get_json()
+# @app.route('/register', methods=['POST'])
+# def register():
+#         data = request.get_json()
 
    
-        name = data.get('name')
-        email = data.get('email')
-        password = data.get('password')
+#         name = data.get('name')
+#         email = data.get('email')
+#         password = data.get('password')
 
         
 
-        if not name or not email or not password:
-            return jsonify({"error": "Incomplete or incorrect data provided"}), 400
-        else:
-            user = User.query.filter_by(name=name).first() 
+#         if not name or not email or not password:
+#             return jsonify({"error": "Incomplete or incorrect data provided"}), 400
+#         else:
+#             user = User.query.filter_by(name=name).first() 
             
-            if not user:
-                user = User(name=name, email=email)
-                Auth.set_password(user, password)
-                db.session.add(user)
-                db.session.commit()
+#             if not user:
+#                 user = User(name=name, email=email)
+#                 Auth.set_password(user, password)
+#                 db.session.add(user)
+#                 db.session.commit()
 
-            return jsonify({"message": "User registered successfully"}), 201
+#             return jsonify({"message": "User registered successfully"}), 201
         # else:
         #     return jsonify({"message": "User already registered"}), 400
 
 api.add_resource(Home, '/')
-api.add_resource(Users, '/login')
+# api.add_resource(Users, '/login')
 api.add_resource(Motors, '/motors')
 api.add_resource(Admins, '/pemire')
 

@@ -2,7 +2,10 @@ import './App.css';
 import {Routes, Route} from 'react-router-dom'
 import HomePage from './components/home';
 import NavBar from './components/navbar';
-import Motors from './components/motors'
+import Motors from './components/motors';
+import Login from './components/login';
+import AboutUs from './components/about';
+import Footer from './components/footer';
 
 
 function App() {
@@ -15,9 +18,10 @@ function App() {
       {/* <Route path="/insurance" element={<Insurance />} /> */}
       <Route path="/login" element={<Login />} />
       <Route path="/motors" element={<Motors />} />
-      {/* <Route path="/about" element={<About />} /> */}
+      <Route path="/about" element={<AboutUs />} />
 
       </Routes>
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import bcrypt
-from models import User, Admin
+from models import Admin
 
 class Auth:
     @staticmethod
