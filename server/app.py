@@ -15,7 +15,7 @@ app.config['JWT_SECRET_KEY']= os.environ.get('JWT_SECRET_KEY')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-CORS(app, resources={r"/motors": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 migrate = Migrate(app, db)
