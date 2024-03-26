@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
 const Motors = () => {
   const [motors, setMotors] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('https://premiere.onrender.com/motors')
@@ -10,18 +12,17 @@ const Motors = () => {
       .then(data => setMotors(data))
       .catch(error => console.error('Error fetching motors:', error));
   }, []);
-  const viewDetails = (motor) => {
-    
+
+  const viewDetails = (motorId) => {
+    navigate(`/motors/${motorId}`);
   }
 
   return (
-    
     <div className="motors-container">
       {motors.map(motor => (
-        <div key={motor.id} className="card">
+        <div key={motor.id} className="card" onClick={() => viewDetails(motor.id)}>
           <div className="top-section">
-            
-            <img src={motor.image} alt="car" className="car-image" /> {/* Add image here */}
+            <img src={motor.image} alt="car" className="car-image" />
           </div>
           <div className="bottom-section">
             <span className="title">{motor.name}</span>
@@ -37,10 +38,10 @@ const Motors = () => {
               <div className="item">
                 <span className="big-text">buy from us</span>
                 <span className="regular-text">TODAY!</span>
-                <button classname="button" onClick={viewDetails}>View Car</button>
               </div>
             </div>
           </div>
+          <button className="btn-maroon btn-wide bg-maroon-500 text-white" onClick={(e) => { e.stopPropagation(); viewDetails(motor.id); }}>View Car</button>
         </div>
       ))}
     </div>

@@ -13,7 +13,7 @@ const NavBar = () => {
       <h1 className="text-2xl font-bold">Dashboard</h1>
       <ul className="flex space-x-4 ml-auto">
         <li>
-          <Link to="/insurance" className="hover:underline">
+          <Link to="/" className="hover:underline">
             Insurance Agency
           </Link>
         </li>

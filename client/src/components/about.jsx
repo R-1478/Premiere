@@ -1,29 +1,34 @@
-// AboutUs.jsx
-
 import React from 'react';
-import logo from "../png prem.png";
-import logo2 from "../png 2.png";
+import logo1 from '../png prem.png'; // Import the image for Premiere Group
+import logo2 from '../png 2.png'; // Import the image for Premiere Insurance Agency
 
-const AboutUs = () => {
+const AboutPage = () => {
   return (
-    <div className="container mx-auto px-4 py-8 h-screen w-full max-w-screen-lg">
-      <h2 className="text-3xl font-semibold text-center mb-6">About Premiere Group</h2>
-      <div className="grid grid-cols-1 gap-8">
+    <div className="container mx-auto px-4 py-8">
+      <h2 className="text-3xl font-semibold text-center mb-6">About Premiere Group and Premiere Insurance Agency</h2>
+      <div className="max-w-xl mx-auto grid gap-8">
+        {/* Premiere Group Container */}
         <div className="bg-gray-100 rounded-lg overflow-hidden">
-          <img src={logo} alt="Insurance" className="w-full h-64 object-cover" />
           <div className="p-4">
-            <h3 className="text-xl font-semibold mb-2">Insurance Services</h3>
+            <h3 className="text-xl font-semibold mb-2">Premiere Group</h3>
+            <img src={logo1} alt="Premiere Group" className="w-full h-64 object-cover" />
             <p className="text-gray-700 leading-relaxed">
-              Premiere Group offers comprehensive insurance solutions tailored to your needs. Whether you're looking for auto insurance, home insurance, or business insurance, we've got you covered.
+              Premiere Group offers comprehensive services tailored to your needs. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
           </div>
         </div>
+        </div>
+
+        {/* Premiere Insurance Agency Container */}
+        <div className="container mx-auto px-4 py-8 justify-left object-left">
+      <h2 className="text-3xl font-semibold text-center mb-6">About Premiere Group and Premiere Insurance Agency</h2>
+      <div className="max-w-xl mx-auto grid gap-8"></div>
         <div className="bg-gray-100 rounded-lg overflow-hidden">
-          <img src={logo2} alt="Motor Dealer" className="w-full h-64 object-cover" />
           <div className="p-4">
-            <h3 className="text-xl font-semibold mb-2">Motor Dealership</h3>
+            <h3 className="text-xl font-semibold mb-2">Premiere Insurance Agency</h3>
+            <img src={logo2} alt="Premiere Insurance Agency" className="w-full h-64 object-cover" />
             <p className="text-gray-700 leading-relaxed">
-              Looking for your dream car? Premiere Group is your one-stop destination for high-quality vehicles. Explore our wide range of cars, trucks, and SUVs, and drive home your perfect match today.
+              Premiere Insurance Agency provides top-notch insurance services. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
           </div>
         </div>
@@ -32,4 +37,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default AboutPage;

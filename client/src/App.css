@@ -171,4 +171,42 @@
     border-left: 1px solid rgba(255, 255, 255, 0.126);
     border-right: 1px solid rgba(255, 255, 255, 0.126);
   }
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    background-color: #333; /* Dark blue background */
+    color: #fff; /* White text */
+    padding: 20px;
+  }
+  
+  .contact-support,
+  .social-icons {
+    flex: 1;
+  }
+  
+  .contact-support h2,
+  .contact-support p,
+  .contact-support ul,
+  .contact-support li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: #fff; /* White text */
+  }
+  
+  .social-icons a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff; /* White text */
+    text-decoration: none;
+  }
+  
+  .social-icons a:hover {
+    color: #ffa500; /* Orange text on hover */
+  }
+  .btn-maroon{
+    background-color: royalblue;
+    color:#F8F9FD
+  }
   
