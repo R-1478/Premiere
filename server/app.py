@@ -73,6 +73,50 @@ def get_car(id):
         }
         return jsonify(response), 200
     return jsonify({'error': 'Car does not exist in the database'}), 404
+@app.route('/motors/<int:id>', methods=['DELETE'])
+# @jwt_required
+def delete_car(id):
+    current_user = get_jwt_identity()
+    admin = Admin.query.filter_by(username=current_user).first()
+   
+    if not admin or not admin.password:
+        return jsonify({"message": "Unauthorized access"}), 403
+
+    motor = Motor.query.filter_by(id=id).first()
+    if motor:
+        db.session.delete(motor)
+        db.session.commit()
+        return jsonify({'message':'motor deleted successfully!'}), 200
+    return jsonify({'error': 'Car does not exist in the database'}), 404
+
+@app.route('/motors/<int:id>', methods=['PATCH'])
+@jwt_required()
+def update_motor(id):
+    current_user = get_jwt_identity()
+    if not current_user or current_user.get('role') != 'admin':
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    motor = Motor.query.get(id)
+    if not motor:
+        return jsonify({'error': 'Motor not found'}), 404
+
+    # Get the updated data from the request
+    data = request.json
+    categories = ['name', 'description', 'price', 'image', 'model', 'engine', 'fuel_type', 'images', 'engine_number', 'model']
+
+    # Loop over the categories and update motor data
+    for category in categories:
+        if category in data:
+            setattr(motor, category, data[category])
+
+    # Commit changes to the database
+    try:
+        db.session.commit()
+        return jsonify({'message': 'Updated successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
 
      
 class Admins(Resource):
@@ -98,53 +142,11 @@ def token_admin():
     db.session.add(admin_instance)
     db.session.commit()
     return {"message": "Admin registered successfully"}, 201
+
             
 
-# class Users(Resource):
-#     def post(self):  
-#         email = request.json.get('email')
-#         password = request.json.get('password')
-
-#         if email and password:
-#             # Query the database using the email
-#             user = User.query.filter_by(email=email).first()
-
-#             if user and password:
-#                 access_token = create_access_token(identity=user.email)
-#                 return {'access_token': access_token}, 200
-#             else:
-#                 return {'message': "Invalid credentials"}, 401
-#         else:
-#             return {'message': "Invalid credentials"}, 401
-
-# @app.route('/register', methods=['POST'])
-# def register():
-#         data = request.get_json()
-
-   
-#         name = data.get('name')
-#         email = data.get('email')
-#         password = data.get('password')
-
-        
-
-#         if not name or not email or not password:
-#             return jsonify({"error": "Incomplete or incorrect data provided"}), 400
-#         else:
-#             user = User.query.filter_by(name=name).first() 
-            
-#             if not user:
-#                 user = User(name=name, email=email)
-#                 Auth.set_password(user, password)
-#                 db.session.add(user)
-#                 db.session.commit()
-
-#             return jsonify({"message": "User registered successfully"}), 201
-        # else:
-        #     return jsonify({"message": "User already registered"}), 400
 
 api.add_resource(Home, '/')
-# api.add_resource(Users, '/login')
 api.add_resource(Motors, '/motors')
 api.add_resource(Admins, '/pemire')
 
@@ -154,24 +156,6 @@ api.add_resource(Admins, '/pemire')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
 
-# username = data.get('username')
-#         password = data.get('password')
-#         admin_instance = Admin(username=username, password=password)
-#         Auth.set_admin(admin_instance, password)
-#         db.session.add(admin_instance)
-#         db.session.commit()
-#         return {"message": "Admin registered successfully"}, 201
-        # data = request.get_json()
-        # username = data.get('username')
-        # password = data.get('password')       
-        # admin = Admin.query.filter_by(username=username).first()
-        # if admin and password:
-        #         access_token = create_access_token(identity=admin.username)
-        #         return {'access_token': access_token}, 200
-        # else:
-        #         return {"message": "invalid credentials"}, 401
-#    
-    
 
-    {"username":"Stewie", "password":"griffin21!"}
-    {"name":"Motor 1", "image":"https://i.ibb.co/282z92m/Screenshot-2024-03-08-100519.png", "type":"Subaru", "description":"best quality, good infotainment system. Petrol engine , automatic", "price":"1,200,000"}
+    
+    
