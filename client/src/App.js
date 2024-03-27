@@ -2,13 +2,14 @@ import './App.css';
 import { Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import HomePage from './components/home';
-import NavBar from './components/navbar';
+// import NavBar from './components/navbar';
 import Motors from './components/motors';
 import Login from './components/login';
 import AboutUs from './components/about';
 import Footer from './components/footer';
 import ViewCarDetails from './components/details';
 import AdminDashboard from './components/admin';
+import Navigation from './components/Navigation';
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,7 +42,8 @@ function App() {
 
   return (
     <div className="home-page">
-      <NavBar />
+      {/* <NavBar /> */}
+      <Navigation />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
