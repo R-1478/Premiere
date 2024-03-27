@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faCar , faStar} from '@fortawesome/free-solid-svg-icons';
 
@@ -8,7 +8,7 @@ const HomePage = () => {
     <div className="flex justify-center">
       {/* Background Image */}
       <div
-        className="inset-0 bg-cover bg-center z-0"
+        className="inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url('https://images.pexels.com/photos/8441870/pexels-photo-8441870.jpeg?auto=compress&cs=tinysrgb&w=600')` }}
       >
         {/* Overlay */}
@@ -16,7 +16,7 @@ const HomePage = () => {
       </div>
       
       {/* Content */}
-      <div className="relative z-0 text-white container w-auto mx-auto py-12 md:container">
+      <div className=" text-white container w-auto mx-auto py-12 md:container">
         {/* Welcome Section */}
         <div className="text-center mb-8">
           <h2 className="text-4xl font-bold mb-4 text-[#424242]">Welcome to Premiere Insurance Agency</h2>
@@ -79,9 +79,11 @@ const HomePage = () => {
             <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
             Reach Out
           </button>
-          <button className="bg-green-500 text-white py-2 px-6 rounded-lg hover:bg-green-600">
-            Continue to Premiere Motors
-          </button>
+          <Link to='/motors'>
+            <button className="bg-green-500 text-white py-2 px-6 rounded-lg hover:bg-green-600">
+              Continue to Premiere Motors
+            </button>
+          </Link>
         </div>
       </div>
     </div>
