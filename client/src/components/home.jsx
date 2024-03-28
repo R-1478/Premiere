@@ -1,30 +1,30 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faCar , faStar} from '@fortawesome/free-solid-svg-icons';
 
 const HomePage = () => {
   return (
-    <div className="relative">
+    <div className="flex justify-center">
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center z-0"
+        className="inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url('https://images.pexels.com/photos/8441870/pexels-photo-8441870.jpeg?auto=compress&cs=tinysrgb&w=600')` }}
       >
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="inset-0 bg-black opacity-50"></div>
       </div>
       
       {/* Content */}
-      <div className="relative z-10 text-white container w-auto mx-auto py-12">
+      <div className=" text-white container w-auto mx-auto py-12 md:container">
         {/* Welcome Section */}
         <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold mb-4">Welcome to Premiere Insurance Agency</h2>
+          <h2 className="text-4xl font-bold mb-4 text-[#424242]">Welcome to Premiere Insurance Agency</h2>
           <p className="text-lg">Your trusted partner for comprehensive insurance solutions</p>
         </div>
         
         {/* Services Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">  
           {/* Insurance Services Card */}
           <div className="bg-gray-800 p-6 rounded-lg">
             <h3 className="text-2xl font-semibold mb-4">Our Services</h3>
@@ -79,9 +79,11 @@ const HomePage = () => {
             <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
             Reach Out
           </button>
-          <button className="bg-green-500 text-white py-2 px-6 rounded-lg hover:bg-green-600">
-            Continue to Premiere Motors
-          </button>
+          <Link to='/motors'>
+            <button className="bg-green-500 text-white py-2 px-6 rounded-lg hover:bg-green-600">
+              Continue to Premiere Motors
+            </button>
+          </Link>
         </div>
       </div>
     </div>
