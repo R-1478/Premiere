@@ -11,6 +11,7 @@ import os
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['JWT_SECRET_KEY']= os.environ.get('JWT_SECRET_KEY')
+# app.config['JWT_SECRET_KEY'] = 'NEKmh7u9rafgoc2m6WibgOeCzhNy58RFjcgCSiwSJnw'
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -48,6 +49,7 @@ class Motors(Resource):
         type = data.get('type')
         description = data.get('description')
         price= data.get('price')
+        
 
         motor = Motor(name=name, image=image, type=type , description=description , price=price)
         db.session.add(motor)
@@ -74,7 +76,7 @@ def get_car(id):
         return jsonify(response), 200
     return jsonify({'error': 'Car does not exist in the database'}), 404
 @app.route('/motors/<int:id>', methods=['DELETE'])
-# @jwt_required
+@jwt_required()
 def delete_car(id):
     current_user = get_jwt_identity()
     admin = Admin.query.filter_by(username=current_user).first()
@@ -93,7 +95,7 @@ def delete_car(id):
 @jwt_required()
 def update_motor(id):
     current_user = get_jwt_identity()
-    if not current_user or current_user.get('role') != 'admin':
+    if not current_user :
         return jsonify({'error': 'Unauthorized'}), 401
 
     motor = Motor.query.get(id)
@@ -112,7 +114,7 @@ def update_motor(id):
     # Commit changes to the database
     try:
         db.session.commit()
-        return jsonify({'message': 'Updated successfully'}), 200
+        return jsonify({'message': f'{category} updated successfully'}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
@@ -124,7 +126,9 @@ class Admins(Resource):
     def post(self):
         data = request.get_json()
         username = data.get('username')
-        password = data.get('password')       
+        password = data.get('password') 
+        if not username or not password:
+            return {'error':'please provide a username and a password'}, 401      
         admin = Admin.query.filter_by(username=username).first()
         if admin and password:
                 access_token = create_access_token(identity=admin.username)
@@ -132,23 +136,23 @@ class Admins(Resource):
         else:
                 return {"message": "invalid credentials"}, 401
 
-@app.route('/premiere/admin', methods=['POST'])
-def token_admin():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')       
-    admin_instance = Admin(username=username, password=password)
-    Auth.set_admin(admin_instance, password)
-    db.session.add(admin_instance)
-    db.session.commit()
-    return {"message": "Admin registered successfully"}, 201
+# @app.route('/premiere/admin', methods=['POST'])
+# def token_admin():
+#     data = request.get_json()
+#     username = data.get('username')
+#     password = data.get('password')       
+#     admin_instance = Admin(username=username, password=password)
+#     Auth.set_admin(admin_instance, password)
+#     db.session.add(admin_instance)
+#     db.session.commit()
+#     return {"message": "Admin registered successfully"}, 201
 
             
 
 
 api.add_resource(Home, '/')
 api.add_resource(Motors, '/motors')
-api.add_resource(Admins, '/pemire')
+api.add_resource(Admins, '/admin')
 
 
 
